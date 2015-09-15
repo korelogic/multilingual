@@ -115,7 +115,7 @@ class Extension_Multilingual extends Extension
 
                 if (!$context['page']) {
 
-                    header('Location: ' . URL . '/' . self::$language . '/'); exit;
+                    // header('Location: ' . URL . '/' . self::$language . '/'); exit;
                 }
             }
 
