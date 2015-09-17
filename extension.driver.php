@@ -96,10 +96,16 @@ class Extension_Multilingual extends Extension
                     self::$language = $match[1];
 
                 } else {
-
-                    // detect language from browser
-
-                    self::$language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+                    
+                    if (isset($_SESSION['language'])) {
+	                    
+	                     // detect if session has language set
+	                     self::$language = substr($_SESSION['language'], 0, 2);
+					} else {
+						
+						// detect language from browser
+						self::$language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+					}                    
                 }
 
                 // check if language is supported
