@@ -106,8 +106,8 @@ class Extension_Multilingual extends Extension
 						// detect language from browser
 						$browserLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 						switch($_SERVER['HTTP_ACCEPT_LANGUAGE']){
-							case "pt-br": $browserLang = "pb";
-							case "es-mx": $browserLang = "mx";
+							case "pt-br": $browserLang = "pb"; break;
+							case "es-mx": $browserLang = "mx"; break;
 						}
 						self::$language = substr($browserLang, 0, 2);
 					}                    
