@@ -104,8 +104,10 @@ class Extension_Multilingual extends Extension
 					} else {
 						
 						// detect language from browser
-						$browserLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-						switch($_SERVER['HTTP_ACCEPT_LANGUAGE']){
+						$browserLang = preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
+						$browserLang = reset($lang_parse[0]);
+
+						switch($browserLang){
 							case "pt-br": $browserLang = "pb"; break;
 							case "es-mx": $browserLang = "mx"; break;
 						}
