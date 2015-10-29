@@ -158,57 +158,11 @@ class Extension_Multilingual extends Extension
     {
         // clear preexisting output
 
-        $context['xml'] = null;
+        //$context['xml'] = null;
 
         // check if language preconditions are met
 
-        if (self::$languages && self::$language !== self::$languages[0]) {
-
-            $filters = $context['datasource']->dsParamFILTERS;
-            $section = $context['datasource']->getSource();
-
-            // check if datasource has filters
-
-            if (is_array($filters)) {
-
-                // swap filters to current language fields
-
-                foreach ($filters as $field_id => $filter) {
-
-                    $field_handle = FieldManager::fetchHandleFromID($field_id);
-
-                    // check if field handle is multilingual
-
-                    if (preg_match('/-' . self::$languages[0] . '$/', $field_handle)) {
-
-                        // get current language field handle
-
-                        $field2_handle = preg_replace('/-' . self::$languages[0] . '$/', '-' . self::$language, $field_handle);
-
-                        // check if current language field exists
-
-                        if ($field2_id = FieldManager::fetchFieldIDFromElementName($field2_handle, $section)) {
-
-                            // remove default field from filters
-
-                            unset($filters[$field_id]);
-
-                            // add current language field to filters
-
-                            $filters[$field2_id] = $filter;
-                        }
-                    }
-                }
-
-                // backup default filters
-
-                $context['datasource']->dsDefaultFILTERS = $context['datasource']->dsParamFILTERS;
-
-                // save current language filters
-
-                $context['datasource']->dsParamFILTERS = $filters;
-            }
-        }
+        
     }
 
     // datasource filtering fallback
@@ -217,54 +171,14 @@ class Extension_Multilingual extends Extension
     {
         // check if language preconditions are met
 
-        if (self::$languages && self::$language !== self::$languages[0]) {
-
-            $filters = $context['datasource']->dsDefaultFILTERS;
-            $entries = $context['entries']['records'];
-
-            // check if datasource has filters
-
-            if (is_array($filters)) {
-
-                // check if datasource is processed second time
-
-                if ($context['datasource']->secondrun) {
-
-                    // save entries from second run
-
-                    $context['datasource']->secondrun = $entries;
-
-                } else {
-
-                    if (count($entries) === 0) {
-
-                        // run again with default filters
-                        // if current language has no results
-
-                        $context['datasource']->dsParamFILTERS = $filters;
-
-                        $context['datasource']->secondrun = true;
-                        $context['datasource']->execute($context['datasource']->_param_pool);
-
-                        // fetch entries from second run
-
-                        $context['entries']['records'] = $context['datasource']->secondrun;
-                    }
-                }
-            }
-        }
+        
     }
 
     // datasource output
 
     public function dataSourcePostExecute($context)
     {
-        if (self::$languages && $context['xml'] instanceof XMLElement) {
-
-            // fiend entries & process fields
-
-            $context['xml'] = $this->findEntries($context['xml']);
-        }
+        
     }
 
     // datasource output entries
